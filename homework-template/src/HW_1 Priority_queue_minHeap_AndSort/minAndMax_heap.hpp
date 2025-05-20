@@ -2,14 +2,15 @@
 #include <vector>
 
 template <typename T>
-class MinHeap : public MinPQ<T> {
+class minAndMaxHeap : public MinPQ<T> {
 private:
+  bool mode;
   std::vector<T> heap;
   void shiftUp(int);
   void shiftDown(int);
 
 public:
-  MinHeap() {};
+  minAndMaxHeap(bool m) : mode(m) {};
   bool isEmpty() const override;
   const T &getTop() const override;
   void push(const T &x) override;

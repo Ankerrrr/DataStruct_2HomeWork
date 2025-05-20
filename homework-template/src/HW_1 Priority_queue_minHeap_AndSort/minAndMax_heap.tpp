@@ -1,9 +1,9 @@
-#include "./minHeap.hpp"
+#include "./minAndMax_heap.hpp"
 #include <iostream>
 #include <algorithm>
 
 template <typename T>
-bool MinHeap<T>::isEmpty() const {
+bool minAndMaxHeap<T>::isEmpty() const {
   if (heap.size() != 0) {
     return false;
   }
@@ -11,7 +11,7 @@ bool MinHeap<T>::isEmpty() const {
 }
 
 template <typename T>
-const T &MinHeap<T>::getTop() const {
+const T &minAndMaxHeap<T>::getTop() const {
   if (heap.size() == 0) {
     throw "nothing can GET in heap";
   }
@@ -19,13 +19,13 @@ const T &MinHeap<T>::getTop() const {
 }
 
 template <typename T>
-void MinHeap<T>::push(const T &x) {
+void minAndMaxHeap<T>::push(const T &x) {
   heap.push_back(x);
   shiftUp(heap.size() - 1);
 }
 
 template <typename T>
-void MinHeap<T>::pop() {
+void minAndMaxHeap<T>::pop() {
   if (isEmpty()) {
     throw "isEmpty cant Pop";
   }
@@ -37,10 +37,11 @@ void MinHeap<T>::pop() {
 }
 
 template <typename T>
-void MinHeap<T>::shiftUp(int index) { // ±q index ¸`ÂI¶}©l©¹¤W¯BÀË¬d²Å¦XminHeap³W«h
+void minAndMaxHeap<T>::shiftUp(int index) { // ±q index ¸`ÂI¶}©l©¹¤W¯BÀË¬d²Å¦Xmin or Max Heap³W«h
   while (index > 0) {
     int parentIndex = (index - 1) / 2;
-    if (heap[parentIndex] <= heap[index]) {
+    if ((heap[parentIndex] <= heap[index] && !mode) ||
+        heap[parentIndex] >= heap[index] && mode) {
       break;
     }
     std::swap(heap[parentIndex], heap[index]);
@@ -49,16 +50,18 @@ void MinHeap<T>::shiftUp(int index) { // ±q index ¸`ÂI¶}©l©¹¤W¯BÀË¬d²Å¦XminHeap³
 }
 
 template <typename T>
-void MinHeap<T>::shiftDown(int index) { // ±q index ¸`ÂI¶}©l©¹¤UÀË¬d²Å¦XminHeap³W«h
+void minAndMaxHeap<T>::shiftDown(int index) { // ±q index ¸`ÂI¶}©l©¹¤UÀË¬d²Å¦Xmin or Max Heap³W«h
   while (true) {
     int left = 2 * index + 1;
     int right = 2 * index + 2;
     int smallest = index;
 
-    if (left < heap.size() && heap[left] < heap[smallest]) {
+    if (left < heap.size() &&
+        ((heap[left] < heap[smallest] && !mode) || (heap[left] > heap[smallest] && mode))) {
       smallest = left;
     }
-    if (right < heap.size() && heap[right] < heap[smallest]) {
+    if (right < heap.size() &&
+        ((heap[right] < heap[smallest] && !mode) || (heap[right] > heap[smallest] && mode))) {
       smallest = right;
     }
 

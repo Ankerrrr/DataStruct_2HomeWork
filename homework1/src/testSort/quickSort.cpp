@@ -1,7 +1,7 @@
 #include <vector>
 #include <algorithm>
 #include "quickSort.hpp"
-#include <iostream>;
+#include <iostream>
 
 int partition(std::vector<int> &arr, int lo, int hi) {
   int pivotIndex = (hi + lo) / 2;

@@ -1,3 +1,6 @@
+#ifndef MINANDMAX_HPP
+#define MINANDMAX_HPP
+
 #include "minPQ.hpp"
 #include <vector>
 
@@ -16,3 +19,7 @@ public:
   void push(const T &x) override;
   void pop() override;
 };
+
+#include "./minAndMax_heap.tpp"
+
+#endif

@@ -1,12 +1,13 @@
-#include "minAndMax_heap.tpp"
+#include "minAndMax_heap.hpp"
 #include <ctime>
 #include <vector>
 #include <chrono>
 #include <algorithm>
 #include "testSort/quickSort.hpp"
 
-const int numElement = 1000;
-const int randMax = 100;
+const int numElement = 10000;
+const int randMax = 1000000;
+const int round = 10;
 
 minAndMaxHeap<int> mh(false);
 std::vector<int> data;
@@ -87,7 +88,8 @@ int main() {
     recordQuickTime.push_back(recordTime(qs, data));
   }
 
-  std::cout << "Heap sort: " << avgVector(recordHeapTime) << " ms" << std::endl;
-  std::cout << "STL sort: " << avgVector(recordSTLTime) << " ms" << std::endl;
-  std::cout << "quick sort: " << avgVector(recordQuickTime) << " ms" << std::endl;
+  std::cout << "逼计掸计: " << numElement << ", 繦诀计程: " << randMax << ", 代刚:" << round << std::endl;
+  std::cout << "Heap sort " << "  Avg: " << avgVector(recordHeapTime) << " ms" << std::endl;
+  std::cout << "STL sort " << "   Avg: " << avgVector(recordSTLTime) << " ms" << std::endl;
+  std::cout << "quick sort " << " Avg: " << avgVector(recordQuickTime) << " ms" << std::endl;
 }

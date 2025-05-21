@@ -126,7 +126,7 @@ Pop() 會把最頂端的節點取出，再拿最後一個節點替換掉空缺�
 
 ### minHeap
 
-```
+```text
 Before sort:
 34 83 62 48 9 73 27 67 28 20 60 41 35 87 26 82 97 68 94 38 21 26 46 18 94 48 96 74 87 73 29 7 52 81 90 73 40 3 55 9 51 85 77 57 43 27 70 72 67 28 50 68 34 85 52 89 42 100 38 44 86 80 29 79 60 5 36 63 89 58 42 75 38 37 90 11 92 79 51 28 26 29 44 54 89 78 53 16 88 46 11 23 42 62 93 45 5 1 19
 After sort:
@@ -135,7 +135,7 @@ After sort:
 
 ### MaxHeap
 
-```
+```text
 Before sort:
 65 35 33 8 76 70 53 80 32 73 44 3 54 80 76 77 72 13 87 20 89 71 47 90 89 15 70 42 89 75 95 8 38 38 97 33 34 63 8 42 46 65 98 13 54 82 47 42 42 94 84 75 66 83 53 54 1 54 45 54 45 13 15 100 70 19 57 71 80 99 39 54 66 81 73 97 36 65 77 48 95 26 25 15 80 42 16 72 10 98 2 73 20 8 61 13 86 99 13
 After sort:
@@ -146,7 +146,7 @@ After sort:
 
 例如 float
 
-```
+```text
 Before sort:
 4.96109 3.48552 2.94198 8.464 8.28486 0.477615 1.48625 3.0369 7.64 2.11737
 After sort:
@@ -155,10 +155,116 @@ After sort:
 
 排序結果都正常
 
+### 編譯與執行命令
+
+編譯
+
+```Bash
+g++ -fdiagnostics-color=always -g main.cpp testSort/quickSort.cpp -o ./mainSort.exe
+```
+
+執行
+
+```Bash
+./mainSort.exe
+```
+
 ## 效能分析
+
+為了比較我們使用了以下 3 種排序以利比較表現結果
+
+- Quick sort
+- STL sort
+- heap sort
+
+以下為 3 種排序方法在不同的資料筆數、測試數排序的時間
+
+以下每個測試都包含 IO 時間，每筆 sort 前 sort 後結果都會輸出到 Terminal，但每個輸出的都一樣內容，因此依然可以公正的比較
+
+### 筆數
+
+```text
+排序數列筆數: 10, 隨機數值最大值: 1000, 測試回合:10
+Heap sort   Avg: 1.754 ms
+STL sort    Avg: 1.893 ms
+quick sort  Avg: 1.429 ms
+```
+
+▲ 十筆情況差距不大，Quick Sort 微幅領先
+
+```text
+排序數列筆數: 1000, 隨機數值最大值: 1000, 測試回合:10
+Heap sort   Avg: 129.043 ms
+STL sort    Avg: 148.523 ms
+quick sort  Avg: 140.193 ms
+```
+
+▲ 一千筆 Heap sort 超車成為最快的排序
+
+```text
+排序數列筆數: 10000, 隨機數值最大值: 1000, 測試回合:10
+Heap sort   Avg: 1243.33 ms
+STL sort    Avg: 1180.98 ms
+quick sort  Avg: 1218.93 ms
+```
+
+▲ 一萬筆就變成了 STL sort 最快了，Quick Sort 則比 Heap Sort 快了 30ms，差距極小似乎可以忽略不計
+
+```text
+排序數列筆數: 100000, 隨機數值最大值: 1000, 測試回合:10
+Heap sort   Avg: 12166 ms
+STL sort    Avg: 11942.9 ms
+quick sort  Avg: 12396.2 ms
+```
+
+▲ 十萬筆 STL 老樣是最快的，測了好幾次 Quick sort 和 heap sort 兩者不相上下，沒有誰比較快
+
+### 數列分布
+
+```text
+排序數列筆數: 10000, 隨機數值最大值: 100, 測試回合:10
+Heap sort   Avg: 1154.36 ms
+STL sort    Avg: 1128.88 ms
+quick sort  Avg: 1156.6 ms
+```
+
+```text
+排序數列筆數: 10000, 隨機數值最大值: 1000, 測試回合:10
+Heap sort   Avg: 1206.83 ms
+STL sort    Avg: 1185.29 ms
+quick sort  Avg: 1178.06 ms
+```
+
+```text
+排序數列筆數: 10000, 隨機數值最大值: 10000, 測試回合:10
+Heap sort   Avg: 1241.7 ms
+STL sort    Avg: 1175.78 ms
+quick sort  Avg: 1183.18 ms
+```
+
+```text
+排序數列筆數: 10000, 隨機數值最大值: 1000000, 測試回合:10
+Heap sort   Avg: 1207.54 ms
+STL sort    Avg: 1184.87 ms
+quick sort  Avg: 1198.41 ms
+```
+
+HeapSort 看起來數列分布對時間的影響度是三者裡最高的
+
+### 圖表
+
+![chart1](./src/images/chart1.png#pic_center=600x600)
 
 ## 申論及開發報告
 
-### tpp
+### 為甚麼是 tpp (template implementation)
 
-因為樣板一定要寫在 hpp 裡面，為了要讓實作和定義分離，因此我們把 minAndMax 的類別實作寫在 **.tpp**內，叫 tpp 是因為他是 template 的實作程式。
+由於 C++ 的樣板（template）設計特性，樣板的實作必須在編譯期間就能被看到，這代表所有的樣板程式碼（不論是定義或實作）通常都需要寫在 .hpp 或 .h 檔中。
+
+然而，為了讓介面（宣告）與實作做更清楚的分離，我們將樣板函式的實作獨立寫在 .tpp 檔案中，再由 .hpp 檔以 #include "minAndMax_heap.tpp" 的方式引入。
+
+這樣還可以帶來以下好處
+
+1. 專案結構更清晰
+
+2. 提升可讀性與模組化

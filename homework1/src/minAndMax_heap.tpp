@@ -1,4 +1,6 @@
-#include "./minAndMax_heap.hpp"
+#ifndef MINANDMAX_TPP
+#define MINANDMAX_TPP
+
 #include <iostream>
 #include <algorithm>
 
@@ -72,3 +74,5 @@ void minAndMaxHeap<T>::shiftDown(int index) { // 從 index 節點開始往下檢查符合mi
     index = smallest;
   }
 }
+
+#endif

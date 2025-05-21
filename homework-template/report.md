@@ -42,7 +42,7 @@ minAndMaxHeap(bool m) : mode(m) {};
 
 在 Max Heap 和 min Heap 兩者差在 Heap 結構的特性，Max Heap 為從上到下遵守父節點大於兩個子節點的規則，而 minHeap 則為相反，從上到下父節點皆小於其兩個子節點因此在程式中僅有 shiftUp 和 shiftDown 兩個負責維護 Heap 結構的函示中有所差異
 
-如以下程式
+### 程式實作
 
 ```cpp
 template <typename T>
@@ -150,8 +150,10 @@ After sort:
 8.464 8.28486 7.64 4.96109 3.48552 3.0369 2.94198 2.11737 1.48625 0.477615
 ```
 
-## 其他
+### 申論及開發報告
 
 ### tpp
 
 因為樣板一定要寫在 hpp 裡面，為了要讓實作和定義分離，因此我們把 minAndMax 的類別實作寫在 **.tpp**內，叫 tpp 是因為他是 template 的實作程式。
+
+### 效能分析

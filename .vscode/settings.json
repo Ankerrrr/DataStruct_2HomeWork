@@ -55,6 +55,10 @@
     "xlocnum": "cpp",
     "xloctime": "cpp",
     "xmemory": "cpp",
-    "xtr1common": "cpp"
+    "xtr1common": "cpp",
+    "chrono": "cpp",
+    "forward_list": "cpp",
+    "iomanip": "cpp",
+    "ratio": "cpp"
   }
 }

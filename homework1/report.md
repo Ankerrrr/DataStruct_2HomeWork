@@ -257,7 +257,7 @@ HeapSort 看起來數列分布對時間的影響度是三者裡最高的
 
 ## 申論及開發報告
 
-### 為甚麼是 tpp (template implementation)
+### 為甚麼使用 tpp (template implementation)
 
 由於 C++ 的樣板（template）設計特性，樣板的實作必須在編譯期間就能被看到，這代表所有的樣板程式碼（不論是定義或實作）通常都需要寫在 .hpp 或 .h 檔中。
 

@@ -81,7 +81,7 @@ int main() {
   std::vector<float> recordSTLTime;
   std::vector<float> recordQuickTime;
 
-  for (int i = 0; i < 1; i++) { // 做幾回
+  for (int i = 0; i < round; i++) { // 做幾回
     gerenteIntRandomNumberToVector();
     recordHeapTime.push_back(recordTime(sortHeap, data));
     recordSTLTime.push_back(recordTime(STLsort, data));

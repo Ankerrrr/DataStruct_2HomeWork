@@ -24,6 +24,9 @@ private:
   Node<T> *root;
   void clear();
   void showInOrder(Node<T> *) const;
+  void showPreOrder(Node<T> *) const;
+  void showPostOrder(Node<T> *) const;
+  int getNodeHeight(Node<T> *) const;
 
 public:
   BST() : root(nullptr) {}
@@ -32,7 +35,8 @@ public:
   bool isEmpty() const;
   void push(const T &);
   void pop();
-  void showBST();
+  void showBST() const;
+  int getHeight() const;
 };
 
 template <typename T>
@@ -79,8 +83,18 @@ void BST<T>::pop() {
 }
 
 template <typename T>
-void BST<T>::showBST() {
+void BST<T>::showBST() const {
+  std::cout << "Preorder: ";
+  showPreOrder(root);
+  std::cout << std::endl;
+
+  std::cout << "Inorder: ";
   showInOrder(root);
+  std::cout << std::endl;
+
+  std::cout << "Postorder: ";
+  showPostOrder(root);
+  std::cout << std::endl;
 }
 
 template <typename T>
@@ -91,6 +105,36 @@ void BST<T>::showInOrder(Node<T> *current) const {
   showInOrder(current->left);
   std::cout << current->data << ", ";
   showInOrder(current->right);
+}
+
+template <typename T>
+void BST<T>::showPreOrder(Node<T> *current) const {
+  if (current == nullptr)
+    return;
+
+  std::cout << current->data << ", ";
+  showPreOrder(current->left);
+  showPreOrder(current->right);
+}
+
+template <typename T>
+void BST<T>::showPostOrder(Node<T> *current) const {
+  if (current == nullptr)
+    return;
+  showPostOrder(current->left);
+  showPostOrder(current->right);
+  std::cout << current->data << ", ";
+}
+template <typename T>
+int BST<T>::getHeight() const {
+  return getNodeHeight(root);
+}
+
+template <typename T>
+int BST<T>::getNodeHeight(Node<T> *node) const {
+  if (node == nullptr)
+    return 0;
+  return 1 + std::max(getNodeHeight(node->left), getNodeHeight(node->right));
 }
 
 #endif

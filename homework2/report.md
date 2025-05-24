@@ -447,6 +447,168 @@ Mid: 3.34732
 
 ### 二、 pop()的時間複雜度
 
+以下我們將測試 pop()操作的時間複雜度
+
+已經先在程式內加上輸出，已用於觀察程式執行
+
+```cpp
+template <typename T>
+void BST<T>::pop(T key, Node<T> *&current) {
+  if (!current)
+    return;
+  if (key < current->data) {
+    std::cout << "is going to Left" << std::endl; // test
+    pop(key, current->left);
+  } else if (key > current->data) {
+    std::cout << "is going to Right" << std::endl; // test
+    pop(key, current->right);
+  } else {                             // ==
+    std::cout << "equal" << std::endl; // test
+    if (!current->left && !current->right) {
+      std::cout << "no child node" << std::endl; // test
+      delete current;
+      current = nullptr;
+    } else if (!current->right) {
+      std::cout << "one node" << std::endl; // test
+      Node<T> *temp = current;
+      current = current->left;
+      delete temp;
+    } else if (!current->left) {
+      std::cout << "one node" << std::endl; // test
+      Node<T> *temp = current;
+      current = current->right;
+      delete temp;
+    } else {
+      std::cout << "second child node(succer)" << std::endl; // test
+      Node<T> *succer = current->right;
+      while (succer->left) {
+        std::cout << "succer: find min node" << std::endl; // test
+        succer = succer->left;
+      }
+      current->data = succer->data;
+      std::cout << "remove min leaf Node: " << std::endl; // test
+      pop(current->data, current->right);
+    }
+  }
+}
+```
+
+#### 完美二元樹
+
+先建構一個範例完美二元素
+
+```text
+    2
+  /   \
+ 1     3
+```
+
+若執行 pop(3)，需要經過 2 > 3 ，
+
+(n = 3) 經過兩個節點
+
+再看更大的例子：
+
+```text
+      4
+    /   \
+   2     6
+  / \   / \
+ 1   3 5   7
+```
+
+```cpp
+BST<int> bst;
+bst.push(4);
+bst.push(2);
+bst.push(6);
+bst.push(1);
+bst.push(3);
+bst.push(5);
+bst.push(7);
+
+bst.pop(7);
+```
+
+```text
+is going to Right
+is going to Right
+equal
+no child node
+```
+
+刪除節點 7 需要經過 4 > 6 > 7
+
+(n = 7) 經過 3 個節點
+
+#### 變成串狀二元樹
+
+```text
+ 1
+  \
+   2
+    \
+     3
+      \
+       4
+```
+
+```cpp
+  BST<int> bst;
+  bst.push(1);
+  bst.push(2);
+  bst.push(3);
+  bst.push(4);
+
+  bst.pop(4);
+  bst.showBST();
+```
+
+```text
+is going to Right
+is going to Right
+is going to Right
+equal
+no child node
+```
+
+如要刪除 4 ， 需要經過 1>2>3>4
+(n = 4) 經過 4 個節點
+
+---
+
+```text
+ 1
+  \
+   2
+    \
+     3
+      \
+       4
+	    \
+		 5
+		  \
+		   6
+```
+
+如要刪除 6 ， 需要經過 1>2>3>4>5>6
+(n = 6) 經過 6 個節點
+
+將上述兩種極端情況整理成表格
+
+| 節點數 $n$ | 樹的結構類型 | pop 的目標節點 | 經過節點數 | 說明                  |
+| ---------- | ------------ | -------------- | ---------- | --------------------- |
+| 3          | 完美二元樹   | 3              | 2          | 2 → 3                 |
+| 7          | 完美二元樹   | 7              | 3          | 4 → 6 → 7             |
+| 4          | 串狀（右斜） | 4              | 4          | 1 → 2 → 3 → 4         |
+| 6          | 串狀（右斜） | 6              | 6          | 1 → 2 → 3 → 4 → 5 → 6 |
+
+得出結論:完美二元素 pop 時間複雜度將會是 log(n)+1，
+若是變成了串狀則會成為 n
+
+最好情況:O(log n)  
+最壞情況:O(n)
+
 ### 編譯與執行指令
 
 ### 結論

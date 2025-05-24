@@ -50,27 +50,36 @@ void BST<T>::pop(T key, Node<T> *&current) {
   if (!current)
     return;
   if (key < current->data) {
+    std::cout << "is going to Left" << std::endl; // test
     pop(key, current->left);
   } else if (key > current->data) {
+    std::cout << "is going to Right" << std::endl; // test
     pop(key, current->right);
-  } else { // ==
+  } else {                             // ==
+    std::cout << "equal" << std::endl; // test
     if (!current->left && !current->right) {
+      std::cout << "no child node" << std::endl; // test
       delete current;
       current = nullptr;
     } else if (!current->right) {
+      std::cout << "one node" << std::endl; // test
       Node<T> *temp = current;
       current = current->left;
       delete temp;
     } else if (!current->left) {
+      std::cout << "one node" << std::endl; // test
       Node<T> *temp = current;
       current = current->right;
       delete temp;
     } else {
+      std::cout << "second child node(succer)" << std::endl; // test
       Node<T> *succer = current->right;
-      while (succer->left)
+      while (succer->left) {
+        std::cout << "succer: find min node" << std::endl; // test
         succer = succer->left;
-
+      }
       current->data = succer->data;
+      std::cout << "remove min leaf Node: " << std::endl; // test
       pop(current->data, current->right);
     }
   }

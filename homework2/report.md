@@ -213,9 +213,239 @@ getHeight() 函式會呼叫內部的遞迴函式 getNodeHeight(Node)，並開始
 
 ## 效能分析
 
+### 時間複雜度
+
+1.  push()
+
+    取決於樹的形狀，若樹非常平衡，時間複雜度為 **O(log n)**，因為每一次的選擇都會將搜尋範圍縮小一半。但若樹退化成鏈狀結構（例如每次插入的節點都比前一個大或小），則時間複雜度會退化為 **O(n)**，因為需要從根節點一路往下走到最底部才能完成插入。
+
+    最好情況:O(log n)
+    最壞情況:O(n)
+
+2.  Pop(T)
+
+    Pop(T)的時間複雜一樣是取決於樹的形狀，如果樹是平衡的，
+    時間複雜度為 **o(log n)**，
+    和 push 一樣每一次的選擇都會將搜尋範圍減少一半。
+    但一樣樹若是不平衡甚至於退化成鏈狀結構，複雜度會提升到 **O(n)**，因為將需要每一個節點都搜尋過一遍，失去了 BST 的特性。
+
+    最好情況:O(log n)
+
+    最壞情況:O(n)
+
+### 空間複雜度
+
+1.  push()
+
+    在 push() 內，會占用一個 Node 節點的空間，，因此僅考慮 Push 函式，空間複雜度為，**O(1)**
+
+    時間複雜度:O(1)
+
+2.  pop(T)
+
+    pop() 採用遞迴實作，因此其空間複雜度取決於遞迴深度，即樹的高度。在最佳情況（例如平衡的 BST）下，遞迴深度為 O(log n)，空間複雜度也為 O(log n)。但在最壞情況下（如退化為鏈狀結構），遞迴深度為 O(n)，空間複雜度也會退化為 O(n)
+
+    最好情況:O(log n)
+    最壞情況:O(n)
+
 ## 測試與驗證
 
+本小節將實證作業第一、二小題題目要求
+
+1. 亂數和 height/log2(n)的關係
+2. Pop(T) 所需的時間複雜度
+
 ### 測試案例
+
+### 一、 亂數和 height/log2(n)的關係
+
+#### 完美二元樹
+
+```cpp
+   BST<int> bst;
+   std::vector<float> vectorScore;
+   bst.push(2);
+   bst.push(1);
+   bst.push(3);
+   float score = cacu(bst.getHeight(), 3);
+   vectorScore.push_back(score);
+   std::cout << score << std::endl;
+   std::cout << "Avg: " << avg(vectorScore) << std::endl;
+   std::cout << "Mid: " << mid(vectorScore) << std::endl;
+
+```
+
+```text
+1.26186
+Avg: 1.26186
+Mid: 1.26186
+```
+
+以上程式我們建了一個完美二元樹，其大致長得像這樣
+
+```text
+    2
+  /	  \
+ 1     3
+```
+
+套入公式 得到 1.26186
+
+```text
+      4
+    /   \
+   2     6
+  / \   / \
+ 1   3 5   7
+```
+
+套入公式 得到 1.06862
+
+所以刻意製造的完美二元樹會越來越趨近於 1
+
+---
+
+#### 隨機亂數產生
+
+```cpp
+int main() {
+  srand(time(NULL));
+  std::vector<float> vectorScore;
+
+  int testIndex = 0;
+  int testValue[] = {100, 500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000, 50000, 60000, 70000, 80000, 90000, 100000};
+  int length = sizeof(testValue) / sizeof(testValue[0]);
+
+  for (; testIndex < length; ++testIndex) {
+    int i = testValue[testIndex];
+    BST<int> bst;
+    for (int j = 0; j < i; j += 1) {
+      bst.push(generateNumber(randMax));
+    }
+    std::cout << "i=" << i << ": ";
+    float score = cacu(bst.getHeight(), i);
+    vectorScore.push_back(score);
+    std::cout << score << std::endl;
+  }
+  std::cout << "Avg: " << avg(vectorScore) << std::endl;
+  std::cout << "Mid: " << mid(vectorScore) << std::endl;
+}
+```
+
+我們使用了 CPP 標準函式庫的 Rand 作為亂數產生 ，並使用 time 當作亂數種子(Srand)
+
+以上程式執行結果如下
+
+```cpp
+const int randMax = 2000;
+```
+
+```Text
+i=100: 2.40824
+i=500: 2.45377
+i=1000: 2.00687
+i=2000: 2.37101
+i=3000: 2.33751
+i=4000: 2.08929
+i=5000: 2.2787
+i=6000: 2.46997
+i=7000: 2.66184
+i=8000: 2.39091
+i=9000: 2.66449
+i=10000: 2.55875
+i=50000: 4.42035
+i=60000: 4.28409
+i=70000: 4.41129
+i=80000: 5.03447
+i=90000: 5.59011
+i=100000: 5.77978
+Avg: 3.23397
+Mid: 2.55875
+```
+
+可以看到隨著 i 的提升 ， height/log2(n) 的值也隨之提升
+
+---
+
+```cpp
+const int randMax = 10000;
+```
+
+```Text
+i=100: 2.40824
+i=500: 1.8961
+i=1000: 2.70927
+i=2000: 2.09743
+i=3000: 2.25094
+i=4000: 2.34001
+i=5000: 2.03455
+i=6000: 2.3903
+i=7000: 2.42697
+i=8000: 2.15953
+i=9000: 2.35998
+i=10000: 2.33298
+i=50000: 2.56252
+i=60000: 2.64606
+i=70000: 2.73376
+i=80000: 2.70142
+i=90000: 2.79505
+i=100000: 3.0103
+Avg: 2.43641
+Mid: 2.40824
+```
+
+這次我們把亂數產生的最大值從原本的 2000 提升到 10000，i 跟隨結果的提升也有所減少了
+
+#### 極端二元樹
+
+```cpp
+  BST<int> bst;
+  std::vector<float> vectorScore;
+  bst.push(1);
+  bst.push(2);
+  bst.push(3);
+  bst.push(4);
+  bst.push(5);
+  bst.push(6);
+  bst.push(7);
+  bst.push(8);
+  bst.push(9);
+  bst.push(10);
+  bst.push(11);
+  bst.push(12);
+```
+
+結果:
+
+```text
+3.34732
+Avg: 3.34732
+Mid: 3.34732
+```
+
+```text
+ 1
+  \
+   2
+    \
+	 3
+	  \
+	   ...
+```
+
+由於已退化成了鏈結串列，隨著 height 不斷增加，
+最終呈現發散，趨近於無限大。
+
+#### 結果
+
+可見亂數產生確實會讓結果落在 2 附近，但由於其不如完美二元樹那樣平衡，
+因此高度仍有可能偏高，使得比值無法趨近於 1。
+這也說明了隨機插入所建立的 BST 結構雖然在平均情況下具有對數性質，但仍可能出現高度偏離理想值的情況，
+導致該比值大於 1 且接近 2。
+
+---
+
+### 二、 pop()的時間複雜度
 
 ### 編譯與執行指令
 

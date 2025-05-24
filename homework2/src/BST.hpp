@@ -34,8 +34,8 @@ public:
   T getTop() const;
   bool isEmpty() const;
   void push(const T &);
-  void pop(int key);
-  void pop(int key, Node<T> *&);
+  void pop(T key);
+  void pop(T key, Node<T> *&);
   void showBST() const;
   int getHeight() const;
 };

@@ -41,12 +41,12 @@ void BST<T>::push(const T &val) {
 }
 
 template <typename T>
-void BST<T>::pop(int key) {
+void BST<T>::pop(T key) {
   pop(key, root);
 }
 
 template <typename T>
-void BST<T>::pop(int key, Node<T> *&current) {
+void BST<T>::pop(T key, Node<T> *&current) {
   if (!current)
     return;
   if (key < current->data) {

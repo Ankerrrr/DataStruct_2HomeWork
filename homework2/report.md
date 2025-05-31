@@ -680,3 +680,4 @@ g++ -g BSTpop.cpp -o ./BSTpop.exe
 ### 黃安可心得
 
 ### 黃順駿心得
+透過這次的作業，我們深入了解了 Binary Search Tree（二元搜尋樹） 的基本運作原理與實作方法。從節點的插入（push）、刪除（pop），到三種遍歷方式（Inorder、Preorder、Postorder）以及高度計算，讓我們實際體驗到資料結構在程式設計中的重要性。

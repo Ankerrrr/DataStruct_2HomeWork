@@ -255,6 +255,39 @@ HeapSort 看起來數列分布對時間的影響度是三者裡最高的
 
 ![chart1](./src/images/chart1.png#pic_center=600x600)
 
+### 時間複雜度
+
+1. Push(t)
+
+push 會將推入至最底端，然後再用 Shift up 向上搬移，直到符合 Heap 的要求。Heap 的高度是 $logn$
+
+最佳時間複雜度: o(1)  
+最壞時間複雜度: O($logn$)
+
+2. pop()
+
+pop 會將最上方的節點素替換做末端節點，然後再呼叫 shiftDown() 往下沉滿足 Heap 的要求。
+
+時間複雜度: O($logn$)
+
+#### Heap Sort 整體時間複雜度
+
+Heap Sort 將 n 個元素 Push() 到 Heap 中，再依序執行 n 個 pop()
+
+push()將花費 $n logn$
+
+pop()將花費同樣 $n logn$
+
+因此總共需要 $2n logn$
+
+Heap Sort 的整體時間複雜度為 O($n log n$)。
+
+### 空間複雜度
+
+本專案 Heap 是使用 Vector 實作，除此之外並沒有使用額外的動態記憶體分配，Push(), pop(), 空間複雜度為 O(1)
+
+Heap Sort 的整體空間複雜度為: O(n)
+
 ## 申論及開發報告
 
 ### 為甚麼使用 tpp (template implementation)
@@ -271,6 +304,6 @@ HeapSort 看起來數列分布對時間的影響度是三者裡最高的
 
 ### 心得
 
-### 黃安可心得
+#### 黃安可心得
 
-### 黃順駿心得
+#### 黃順駿心得
